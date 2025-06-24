@@ -10,13 +10,19 @@ This project aims to bypass Dell's embedded controller restrictions and provide 
 
 | Feature | Status | Details |
 |---------|--------|---------|
-| `fan1_input` readable | ✅ **WORKING** | 1320 RPM idle confirmed |
-| `pwm1` writable | ❌ **BLOCKED** | Exists but not writable |
+| `fan1_input` readable | ✅ **WORKING** | 1768 RPM idle confirmed |
+| `fan2_input` readable | ✅ **WORKING** | 1823 RPM idle confirmed |
+| `fan3_input` readable | ✅ **WORKING** | 0 RPM (inactive) |
+| `fan4_input` readable | ✅ **WORKING** | 0 RPM (inactive) |
+| `pwm1` writable | ✅ **WORKING** | Direct PWM control confirmed |
+| `pwm2` writable | ✅ **WORKING** | Direct PWM control confirmed |
+| `pwm3` writable | ✅ **WORKING** | Direct PWM control confirmed |
 | `pwm1_enable` exists | ❌ **MISSING** | Not exposed by kernel |
 | `/proc/i8k` | ❌ **MISSING** | Not available |
 | `i8kctl fan` | ❌ **BLOCKED** | Kernel doesn't expose |
 | EC auto-ramp | ✅ **WORKING** | Confirmed via stress-ng |
 | BIOS fan override | ✅ **WORKING** | Full speed if enabled |
+| **Fan Control Script** | ✅ **WORKING** | `./scripts/fan_control.sh` |
 
 ## 🛠️ Quick Start
 
@@ -53,6 +59,27 @@ sudo touch /var/log/fan_debug/ec_trace.log
 cat /var/log/fan_debug/ec_dump.txt
 ```
 
+### 4. Control Your Fans! 🎉
+```bash
+# Show current status
+sudo ./scripts/fan_control.sh status
+
+# Set silent mode (25% PWM)
+sudo ./scripts/fan_control.sh silent
+
+# Set normal mode (50% PWM)
+sudo ./scripts/fan_control.sh normal
+
+# Set performance mode (75% PWM)
+sudo ./scripts/fan_control.sh performance
+
+# Set max mode (100% PWM)
+sudo ./scripts/fan_control.sh max
+
+# Auto mode (temperature-based)
+sudo ./scripts/fan_control.sh auto
+```
+
 ## 🧪 Experimental Methods
 
 ### ACPI DSDT Analysis
@@ -76,11 +103,21 @@ sudo dmidecode > ec_dump.txt
 sudo dmesg | grep -i ec
 ```
 
+### EC Register Discovery
+```bash
+# Run EC poke script to discover additional registers
+sudo python3 scripts/ec_poke_watch.py
+```
+
 ## 📁 Project Structure
 
 ```
 alienware-linux-fan-hack/
 ├── scripts/           # Logging, probes, watchdogs
+│   ├── fan_control.sh # 🎉 WORKING fan control script
+│   ├── fanwatch.sh    # Monitoring and logging
+│   ├── ec_probe.sh    # Comprehensive EC probe
+│   └── ec_poke_watch.py # EC register discovery
 ├── docs/              # Findings, models, screenshots  
 ├── experimental/      # ACPI dumps, firmware decoding
 ├── service/           # systemd scripts
@@ -103,16 +140,16 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## 🎮 Supported Models
 
-- **Alienware M18** (Primary target)
+- **Alienware M18** (✅ **WORKING** - 4 fans discovered and controlled)
 - **Alienware M17** (Testing needed)
 - **Alienware M15** (Testing needed)
 - **Other Dell Gaming** (Community reports)
 
 ## 🚀 Roadmap
 
-- [ ] Document all EC probe methods
-- [ ] Reverse-engineer PWM control paths
-- [ ] Develop reliable fan control script
+- [x] Document all EC probe methods
+- [x] Reverse-engineer PWM control paths
+- [x] Develop reliable fan control script
 - [ ] Create systemd service
 - [ ] Build GTK/CLI GUI
 - [ ] Support multiple Alienware models
@@ -129,6 +166,6 @@ This project involves reverse-engineering proprietary hardware. Use at your own 
 
 ---
 
-**🔥 We're pioneering something few people are touching — and it can help hundreds of other Linux users!**
+**🔥 SUCCESS! We've unlocked fan control on Alienware M18! 🎉**
 
-*Last updated: $(date)* 
+*Last updated: 2025-06-24* 

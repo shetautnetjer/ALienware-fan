@@ -1,0 +1,88 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+    Help identify and log issues during EC poking, fan control, or compatibility testing
+
+    Assist in solving issues step by step while preserving logs
+
+    Update the README.md and docs/*.md with completed work and clearly mark what's next
+
+📒 DEBUGGING RULES
+
+    All test logs (errors, EC addresses tested, responses) go in logs/YYYY-MM-DD_<task>.log
+
+    Any fan-related EC register discovery attempts must include:
+
+        EC write offset
+
+        Value written
+
+        Response (fan movement, rpm readback)
+
+        System temp state (CPU/GPU load condition)
+
+    Logs must be timestamped and summarized at the top of the file like:
+
+        # SUMMARY: Attempted fan2 EC poke, success at 0x02B1
+        # Result: RPM increased under stress, reversible write confirmed.
+        # Next: Isolate if fan is GPU or VRM using GPU-only stress
+
+    ✅ COMPLETION RULES
+
+        When a fan, sensor, or feature is confirmed working, immediately:
+
+            Update README.md status matrix (✅)
+
+            Create or update model doc in docs/<model>.md (add EC mapping)
+
+            Append to CHANGELOG.md with date and short description
+
+        Mark related issues as closed (if using GitHub Issues) and reference the solved commit/PR or log line
+
+    🧭 WHAT’S NEXT TRACKING
+
+        Maintain a NEXT.md file (or use README footer) with:
+
+            Unsolved EC regions
+
+            RPM registers still unknown
+
+            Fans with erratic behavior or missing control
+
+            High-priority BIOS/version tests needed
+            Example:
+
+        ## 🔧 Next Targets (as of 2025-06-24)
+        - [ ] Test 0x02BE and 0x02C0 EC writes for rear fan PWM control
+        - [ ] Investigate EC 0x68 as possible RPM feedback from GPU fan
+        - [ ] Add `alienfan.service` support for multi-pwm detection
+
+    💬 COLLABORATION & COMMENT RULES
+
+        When unsure whether a register is valid, write a NOTE: line into the log like:
+
+        NOTE: 0x02BA might be reverse logic fan control. Needs further testing.
+
+        If BIOS interferes with writes, log it under a [BIOS BLOCKED] section with observed behavior.
+
+    🧪 EXPERIMENTATION TRACKING
+
+        Every experimental test or EC scan should be saved under:
+
+        experimental/YYYY-MM-DD_<test_name>.md
+
+        Include:
+
+            What was tested
+
+            Commands used
+
+            Output logs
+
+            Verdict: [Success | No Effect | BIOS Blocked | Needs Retry]
+
+    🧠 FINAL RULE
+
+        Always ask: "Did we prove it? Can someone else repeat this from scratch?"
