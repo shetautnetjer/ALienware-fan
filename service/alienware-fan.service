@@ -1,0 +1,31 @@
+[Unit]
+Description=Alienware Fan Control Debug Service
+Documentation=https://github.com/your-repo/alienware-linux-fan-hack
+After=multi-user.target
+Wants=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/bin/fanwatch.sh
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=alienware-fan
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/fan_debug
+
+# Environment
+Environment=LOG_DIR=/var/log/fan_debug
+Environment=LOG_FILE=/var/log/fan_debug/ec_trace.log
+
+[Install]
+WantedBy=multi-user.target 
