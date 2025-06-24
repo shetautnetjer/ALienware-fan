@@ -1,0 +1,72 @@
+{
+    "presets": {
+        "quiet": {
+            "name": "Quiet Mode",
+            "description": "Minimal fan noise for light workloads",
+            "pwm_value": 64,
+            "auto_threshold": 70
+        },
+        "balanced": {
+            "name": "Balanced",
+            "description": "Good balance between noise and cooling",
+            "pwm_value": 128,
+            "auto_threshold": 75
+        },
+        "performance": {
+            "name": "Performance",
+            "description": "Enhanced cooling for gaming and heavy workloads",
+            "pwm_value": 192,
+            "auto_threshold": 80
+        },
+        "max": {
+            "name": "Max Cooling",
+            "description": "Maximum cooling for stress testing",
+            "pwm_value": 255,
+            "auto_threshold": 85
+        },
+        "gaming": {
+            "name": "Gaming Mode",
+            "description": "Optimized for gaming performance",
+            "pwm_value": 200,
+            "auto_threshold": 78
+        },
+        "stress": {
+            "name": "Stress Test",
+            "description": "Maximum cooling for stress testing",
+            "pwm_value": 255,
+            "auto_threshold": 90
+        }
+    },
+    "settings": {
+        "update_interval": 2,
+        "temperature_warning": 80,
+        "temperature_critical": 90,
+        "enable_ec_direct": false,
+        "auto_save_profile": true,
+        "show_system_tray": true
+    },
+    "ui": {
+        "window_width": 800,
+        "window_height": 600,
+        "theme": "dark",
+        "font_size": 10
+    },
+    "sensor_labels": {
+        "coretemp": {
+            "temp1": "CPU Package",
+            "temp2": "CPU Core 1",
+            "temp3": "CPU Core 2",
+            "temp4": "CPU Core 3",
+            "temp5": "CPU Core 4"
+        },
+        "dell_smm": {
+            "fan1": "CPU Fan",
+            "fan2": "GPU Fan",
+            "fan3": "VRM Fan",
+            "fan4": "Rear Exhaust Fan"
+        },
+        "nvme": {
+            "temp1": "NVMe SSD"
+        }
+    }
+} 
